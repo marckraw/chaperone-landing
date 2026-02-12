@@ -1,14 +1,23 @@
-import { GITHUB_URL, RELEASES_URL, ISSUES_URL, VERSION } from "@/lib/constants";
+import { GITHUB_URL, RELEASES_URL, ISSUES_URL } from "@/lib/constants";
 
-export function Footer() {
+interface FooterProps {
+  version: string;
+}
+
+export function Footer({ version }: FooterProps) {
   return (
     <footer className="border-t border-border px-6 py-12">
       <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
         <div className="flex items-center gap-3">
           <span className="font-semibold">Chaperone</span>
-          <span className="text-xs font-mono text-text-muted bg-bg-tertiary px-2 py-0.5 rounded">
-            {VERSION}
-          </span>
+          <a
+            href={RELEASES_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-mono text-text-muted bg-bg-tertiary px-2 py-0.5 rounded hover:text-cyan transition-colors"
+          >
+            v{version}
+          </a>
         </div>
 
         <nav className="flex items-center gap-6 text-sm text-text-secondary">

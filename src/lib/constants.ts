@@ -5,7 +5,6 @@ export const INSTALL_SCRIPT_URL =
   "https://raw.githubusercontent.com/marckraw/chaperone-cli/master/scripts/install.sh";
 export const ISSUES_URL =
   "https://github.com/marckraw/chaperone-cli/issues";
-export const VERSION = "v0.3.0";
 
 export const INSTALL_COMMAND = `curl -fsSL ${INSTALL_SCRIPT_URL} | sh`;
 
@@ -45,34 +44,6 @@ export const FEATURES = [
     title: "CI/CD Ready",
     description:
       "JSON output format, proper exit codes, zero-config in pipelines.",
-  },
-];
-
-export const PLATFORMS = [
-  {
-    name: "macOS (Apple Silicon)",
-    arch: "darwin-arm64",
-    binary: "chaperone-darwin-arm64",
-  },
-  {
-    name: "macOS (Intel)",
-    arch: "darwin-x64",
-    binary: "chaperone-darwin-x64",
-  },
-  {
-    name: "Linux (x64)",
-    arch: "linux-x64",
-    binary: "chaperone-linux-x64",
-  },
-  {
-    name: "Linux (ARM64)",
-    arch: "linux-arm64",
-    binary: "chaperone-linux-arm64",
-  },
-  {
-    name: "Windows (x64)",
-    arch: "windows-x64",
-    binary: "chaperone-windows-x64.exe",
   },
 ];
 
@@ -135,19 +106,26 @@ export const EXAMPLE_CONFIG = `{
   ]
 }`;
 
-export const TERMINAL_OUTPUT_LINES = [
-  { text: "$ chaperone check", type: "command" as const },
-  { text: "", type: "blank" as const },
-  { text: "  Chaperone v0.3.0", type: "info" as const },
-  { text: "  Checking 3 tools + 3 custom rules...", type: "info" as const },
-  { text: "", type: "blank" as const },
-  { text: "  ✓ TypeScript", type: "pass" as const, indent: true },
-  { text: "  ✓ ESLint", type: "pass" as const, indent: true },
-  { text: "  ✓ Prettier", type: "pass" as const, indent: true },
-  { text: "", type: "blank" as const },
-  { text: "  ✓ file-naming: PascalCase (src/components)", type: "pass" as const },
-  { text: "  ✗ forbidden-import: lodash found in src/utils/helpers.ts", type: "fail" as const },
-  { text: "  ✓ import-boundary: auth → billing", type: "pass" as const },
-  { text: "", type: "blank" as const },
-  { text: "  5 passed · 1 failed", type: "summary" as const },
-];
+export type TerminalLine = {
+  text: string;
+  type: "command" | "blank" | "info" | "pass" | "fail" | "summary";
+};
+
+export function getTerminalLines(version: string): TerminalLine[] {
+  return [
+    { text: "$ chaperone check", type: "command" },
+    { text: "", type: "blank" },
+    { text: `  Chaperone v${version}`, type: "info" },
+    { text: "  Checking 3 tools + 3 custom rules...", type: "info" },
+    { text: "", type: "blank" },
+    { text: "  ✓ TypeScript", type: "pass" },
+    { text: "  ✓ ESLint", type: "pass" },
+    { text: "  ✓ Prettier", type: "pass" },
+    { text: "", type: "blank" },
+    { text: "  ✓ file-naming: PascalCase (src/components)", type: "pass" },
+    { text: "  ✗ forbidden-import: lodash found in src/utils/helpers.ts", type: "fail" },
+    { text: "  ✓ import-boundary: auth → billing", type: "pass" },
+    { text: "", type: "blank" },
+    { text: "  5 passed · 1 failed", type: "summary" },
+  ];
+}

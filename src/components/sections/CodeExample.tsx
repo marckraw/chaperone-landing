@@ -5,7 +5,11 @@ import { CodeBlock } from "@/components/ui/CodeBlock";
 import { Terminal } from "@/components/ui/Terminal";
 import { EXAMPLE_CONFIG } from "@/lib/constants";
 
-export function CodeExample() {
+interface CodeExampleProps {
+  version: string;
+}
+
+export function CodeExample({ version }: CodeExampleProps) {
   return (
     <section className="px-6 py-32 bg-bg-secondary/50">
       <div className="max-w-5xl mx-auto">
@@ -40,7 +44,7 @@ export function CodeExample() {
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <Terminal />
+            <Terminal version={version} />
           </motion.div>
         </div>
       </div>

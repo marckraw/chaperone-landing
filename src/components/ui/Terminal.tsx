@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { TERMINAL_OUTPUT_LINES } from "@/lib/constants";
+import { getTerminalLines } from "@/lib/constants";
 
 const lineColors: Record<string, string> = {
   command: "text-cyan-light font-bold",
@@ -12,7 +12,13 @@ const lineColors: Record<string, string> = {
   blank: "",
 };
 
-export function Terminal() {
+interface TerminalProps {
+  version?: string;
+}
+
+export function Terminal({ version = "0.3.0" }: TerminalProps) {
+  const lines = getTerminalLines(version);
+
   return (
     <div className="rounded-xl border border-border bg-bg-secondary overflow-hidden glow-cyan">
       <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-bg-tertiary">
@@ -22,7 +28,7 @@ export function Terminal() {
         <span className="ml-2 text-xs text-text-muted font-mono">terminal</span>
       </div>
       <div className="p-5 font-mono text-sm leading-relaxed">
-        {TERMINAL_OUTPUT_LINES.map((line, i) => (
+        {lines.map((line, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0 }}
@@ -38,7 +44,7 @@ export function Terminal() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: TERMINAL_OUTPUT_LINES.length * 0.08 }}
+          transition={{ delay: lines.length * 0.08 }}
           className="inline-block w-2 h-4 bg-cyan animate-blink mt-1"
         />
       </div>

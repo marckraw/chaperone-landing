@@ -3,9 +3,15 @@
 import { motion } from "framer-motion";
 import { CopyCommand } from "@/components/ui/CopyCommand";
 import { AnimatedSection } from "@/components/ui/AnimatedSection";
-import { INSTALL_COMMAND, PLATFORMS, RELEASES_URL } from "@/lib/constants";
+import { INSTALL_COMMAND } from "@/lib/constants";
+import type { PlatformAsset } from "@/lib/github";
 
-export function Installation() {
+interface InstallationProps {
+  assets: PlatformAsset[];
+  releasesUrl: string;
+}
+
+export function Installation({ assets, releasesUrl }: InstallationProps) {
   return (
     <section id="installation" className="px-6 py-32">
       <div className="max-w-4xl mx-auto">
@@ -37,19 +43,19 @@ export function Installation() {
         <AnimatedSection delay={0.1} className="mb-12">
           <h3 className="text-lg font-semibold mb-4">Platform Downloads</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {PLATFORMS.map((platform) => (
+            {assets.map((asset) => (
               <a
-                key={platform.arch}
-                href={RELEASES_URL}
+                key={asset.arch}
+                href={asset.downloadUrl || releasesUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-lg border border-border bg-bg-card p-4 hover:border-cyan/30 transition-colors group"
               >
                 <div className="text-sm font-medium mb-1 group-hover:text-cyan transition-colors">
-                  {platform.name}
+                  {asset.name}
                 </div>
                 <div className="text-xs font-mono text-text-muted">
-                  {platform.binary}
+                  {asset.binary}
                 </div>
               </a>
             ))}

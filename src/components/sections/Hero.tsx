@@ -5,7 +5,12 @@ import { Button } from "@/components/ui/Button";
 import { Terminal } from "@/components/ui/Terminal";
 import { GITHUB_URL } from "@/lib/constants";
 
-export function Hero() {
+interface HeroProps {
+  version: string;
+  releasesUrl: string;
+}
+
+export function Hero({ version, releasesUrl }: HeroProps) {
   return (
     <section className="relative min-h-screen flex items-center justify-center px-6 pt-20 pb-32 overflow-hidden">
       {/* Background glow */}
@@ -13,14 +18,24 @@ export function Hero() {
 
       <div className="max-w-5xl w-full mx-auto">
         <div className="text-center mb-16">
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-cyan font-mono text-sm mb-6 tracking-wide"
+            className="flex items-center justify-center gap-3 mb-6"
           >
-            DETERMINISTIC CODE ENFORCER
-          </motion.p>
+            <span className="text-cyan font-mono text-sm tracking-wide">
+              DETERMINISTIC CODE ENFORCER
+            </span>
+            <a
+              href={releasesUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-mono text-text-muted bg-bg-tertiary px-2 py-0.5 rounded hover:text-cyan transition-colors"
+            >
+              v{version}
+            </a>
+          </motion.div>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -68,7 +83,7 @@ export function Hero() {
           transition={{ duration: 0.6, delay: 0.5 }}
           className="max-w-2xl mx-auto"
         >
-          <Terminal />
+          <Terminal version={version} />
         </motion.div>
       </div>
     </section>
